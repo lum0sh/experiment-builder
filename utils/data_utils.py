@@ -30,6 +30,10 @@ if not firebase_admin._apps:
         'databaseURL': os.getenv("DATABSE_URL")
     })
 
+def get_env_reference(project_name):
+    db_ref = db.reference(f'/envs/{project_name}')
+    return db_ref
+
 def get_participant_ids(project_name):
     db_ref = db.reference(f'/experiments/{project_name}')
     all_keys = list(db_ref.get(shallow=True).keys())
