@@ -30,9 +30,23 @@ if not firebase_admin._apps:
         'databaseURL': os.getenv("DATABSE_URL")
     })
 
-def get_env_reference(project_name):
-    db_ref = db.reference(f'/envs/{project_name}')
-    return db_ref
+
+def clear_env_vars(url):
+    db_ref = db.reference(url)
+    print(f'Clearing env vars at: {url}')
+    db_ref.delete()
+
+def store_environment_variables(project_name, env_name, env_vars):
+    url = f'/envs/{project_name}/{env_name}'
+    db_ref = db.reference(url)
+    print(f'Storing env vars for project: {url}')
+    db_ref.set(env_vars)
+
+def read_environment_variables(project_name, env_name):
+    url = f'/envs/{project_name}/{env_name}'
+    db_ref = db.reference(url)
+    print(f'Reading env vars for project: {url}')
+    return db_ref.get()
 
 def get_participant_ids(project_name):
     db_ref = db.reference(f'/experiments/{project_name}')
