@@ -9,19 +9,22 @@ st.set_page_config(
 st.title("Mental Navigation Builder")
 project_name = "mental-nav"
 
+ 
+
 environments = [
     {
         "name": "With Dots",
         "tag": "env_dots",
-        "urls": [f"https://mentalnavigation.web.app/?DAY={i}&ENV=env_dots" for i in range(1, 5)],
     },
     {
         "name": "Without Dots",
         "tag": "env_no_dots",
-        "urls": [f"https://mentalnavigation.web.app/?DAY={i}&ENV=env_no_dots" for i in range(1, 5)],
     },
 ]
 
+user_id = st.text_input("User ID (required to generate links)")
+has_user_id = bool(user_id.strip())
+st.divider()
 cols = st.columns(len(environments), gap="large")
 
 if "show_links" not in st.session_state:
@@ -31,6 +34,7 @@ if "edit_env" not in st.session_state:
 
 def toggle_links(env_name):
     st.session_state.show_links[env_name] = not st.session_state.show_links.get(env_name, False)
+
 
 for col, env in zip(cols, environments):
     env_name = env["name"]
@@ -58,17 +62,20 @@ for col, env in zip(cols, environments):
                         key=f"preview_{env_name}",
                         on_click=toggle_links,
                         args=(env_name,),
+                        disabled=not has_user_id,
                     )
 
             # ---- Render links (hidden when editing) ----
-            if not is_editing and st.session_state.show_links.get(env_name, False):
+            if not is_editing and st.session_state.show_links.get(env_name, False) and has_user_id:
                 st.divider()
-                for day, url in enumerate(env["urls"], start=1):
+                for day in range(1, 5):
+                    url = f"https://mentalnavigation.web.app/?DAY={day}&ENV={env['tag']}&UID={user_id}"
                     st.link_button(
-                        label=f"DAY {day}",
+                        label=f"UID {user_id} :  DAY {day}",
                         url=url,
                         use_container_width=True,
                     )
+
 
 edit_env = st.session_state.edit_env
 imageset_options = [1,2,3]
