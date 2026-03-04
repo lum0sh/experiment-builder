@@ -91,7 +91,7 @@ if edit_env:
     with st.form('experiment'):
         st.markdown(f"## Environment: {edit_env['name']} ")
         env_vars = read_environment_variables(project_name,edit_env['tag'])
-        imageset = st.selectbox("Imageset", imageset_options, index=imageset_options.index(env_vars.get('imageset',1)))
+        imageset = st.selectbox("Imageset", imageset_options, index=imageset_options.index(env_vars.get('imageset',4)))
         # trainingStepSizes = lst.multiselect("Training Step Sizes", [12.5, 15, 17.5, 20], default=[12.5, 15])
         # testingStepSizes = st.multiselect("Testing Step Sizes", [10, 12.5, 15, 17.5, 22.5, 27.5, 30], default=[10, 12.5, 15, 17.5, 22.5, 27.5])
         trainingStepSizes = st_tags(
