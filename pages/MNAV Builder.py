@@ -21,6 +21,13 @@ environments = [
         "tag": "env_no_dots",
     },
 ]
+st.markdown("""
+            This is an application to generate links for the **Mental Navigation Task** and edit environment variables for each condition.
+            \\
+            \\
+            To edit environment variables, click the 'Edit' button for the desired environment, make changes in the form, and submit. Once you make the changes, enter the User ID and generate new links to see the changes reflected in the task.
+            \\
+            To generate links, enter a User ID and click 'Show Links' for the desired environment. Make sure to use a unique User ID for each participant to ensure their data is recorded correctly.""")
 
 user_id = st.text_input("User ID (required to generate links)")
 has_user_id = bool(user_id.strip())
@@ -45,14 +52,14 @@ for col, env in zip(cols, environments):
             st.markdown(f"### {env_name}")
 
             buttonCols = st.columns(2, gap="small")
-
+            if not user_id:
             # ---- Edit button ----
-            with buttonCols[0]:
-                if st.button("Edit", key=f"edit_{env_name}"):
-                    st.session_state.edit_env = env
-                    # hide links when editing starts
-                    st.session_state.show_links[env_name] = False
-                    st.rerun()
+                with buttonCols[0]:
+                    if st.button("Edit", key=f"edit_{env_name}"):
+                        st.session_state.edit_env = env
+                        # hide links when editing starts
+                        st.session_state.show_links[env_name] = False
+                        st.rerun()
 
             # ---- Show/Hide links button (hidden when editing) ----
             if not is_editing:
@@ -103,7 +110,7 @@ if edit_env:
         interLandmarkDistance = st.number_input("Inter-Landmark Distance (cm)", value=env_vars.get('interLandmarkDistance', 5), min_value=5, max_value=30)
 
         numLandmarks = st.slider("Number of Landmarks", value=env_vars.get('numLandmarks', 9),min_value=2,max_value=9)
-        # day = st.selectbox("Day", [1, 2, 3, 4, 5])
+        maxAttempt = st.selectbox("Maximum Attempts", [1, 2,])
         screenHeightcm = st.number_input("Screen Height (cm)", value=env_vars.get('screenHeightcm', 21.24))
         # if day<3:
         #     numTrialPairs = st.slider("Number of Trial Pairs",max_value=int(numLandmarks*(numLandmarks-1)/2))
@@ -134,6 +141,7 @@ if edit_env:
                 "testingStepSizes": testingStepSizes,
                 "interLandmarkDistance":interLandmarkDistance,
                 "numLandmarks": numLandmarks,
+                "maxAttempt": maxAttempt,
                 "screenHeightcm": screenHeightcm,
             }
             env_vars.update(formData)
