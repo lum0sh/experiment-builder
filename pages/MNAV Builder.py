@@ -85,13 +85,13 @@ for col, env in zip(cols, environments):
 
 
 edit_env = st.session_state.edit_env
-imageset_options = [4]
+imageset_options = [1,2,3]
  
 if edit_env:
     with st.form('experiment'):
         st.markdown(f"## Environment: {edit_env['name']} ")
         env_vars = read_environment_variables(project_name,edit_env['tag'])
-        imageset = st.selectbox("Imageset", imageset_options, index=imageset_options.index(env_vars.get('imageset',4)))
+        # imageset = st.selectbox("Imageset", imageset_options, index=imageset_options.index(env_vars.get('imageset',1)))
         # trainingStepSizes = lst.multiselect("Training Step Sizes", [12.5, 15, 17.5, 20], default=[12.5, 15])
         # testingStepSizes = st.multiselect("Testing Step Sizes", [10, 12.5, 15, 17.5, 22.5, 27.5, 30], default=[10, 12.5, 15, 17.5, 22.5, 27.5])
         trainingStepSizes = st_tags(
@@ -136,7 +136,7 @@ if edit_env:
                     st.stop()
 
             formData = {
-                "imageset": imageset,
+                "imageset": 4,
                 "trainingStepSizes": trainingStepSizes,
                 "testingStepSizes": testingStepSizes,
                 "interLandmarkDistance":interLandmarkDistance,
