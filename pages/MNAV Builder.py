@@ -85,7 +85,7 @@ for col, env in zip(cols, environments):
 
 
 edit_env = st.session_state.edit_env
-imageset_options = [1,2,3]
+imageset_options = [4]
  
 if edit_env:
     with st.form('experiment'):
